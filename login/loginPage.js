@@ -4,19 +4,60 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-const {height, width} = Dimensions.get('window');
-const BORDERWIDTH = 2;
-const RADIUS = width / 12;
-const CONFIRM_ICON_RADIUS = RADIUS / 2;  
+import * as config_info from '../config';
 
 const EMAIL_ICON = <Icon name='email' color='#fff' size={24} />
 const CONFIRM_ICON = <Icon name='chevron-right' color='#fff' size={24} />
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: config_info.BACKGROUNDCOLOR,
+  },
+  
+  login_view: {
+    height: 2 * config_info.RADIUS + config_info.BORDERWIDTH,
+    width: config_info.width / 3 * 2,
+    borderColor: '#fff',
+    borderWidth: config_info.BORDERWIDTH,
+    borderRadius: config_info.RADIUS,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon_section: {
+    height: 2 * config_info.RADIUS,
+    width:  2 * config_info.RADIUS,
+    borderRadius: config_info.RADIUS,
+    borderWidth: config_info.BORDERWIDTH,
+    borderColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  input_section: {
+    width: config_info.width / 3 * 2 - 4*config_info.RADIUS - 2*config_info.BORDERWIDTH,
+    height: 2 * config_info.RADIUS,
+  },
+  confirm_section: {
+    height: 2 * config_info.RADIUS,
+    width: 2 * config_info.RADIUS,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  confirm_icon_style: {
+    height: 2 * config_info.CONFIRM_ICON_RADIUS,
+    width: 2 * config_info.CONFIRM_ICON_RADIUS,
+    backgroundColor: '#2a2a2a',     
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: config_info.CONFIRM_ICON_RADIUS,
+  },
+});
 
 export default class LoginPage extends Component {
     
@@ -47,49 +88,3 @@ export default class LoginPage extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1f1f1f',
-  },
-  
-  login_view: {
-    height: 2 * RADIUS + BORDERWIDTH,
-    width: width / 3 * 2,
-    borderColor: '#fff',
-    borderWidth: BORDERWIDTH,
-    borderRadius: RADIUS,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  icon_section: {
-    height: 2 * RADIUS,
-    width:  2 * RADIUS,
-    borderRadius: RADIUS,
-    borderWidth: BORDERWIDTH,
-    borderColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input_section: {
-    width: width / 3 * 2 - 4*RADIUS - 2*BORDERWIDTH,
-    height: 2 * RADIUS,
-  },
-  confirm_section: {
-    height: 2 * RADIUS,
-    width: 2 * RADIUS,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  confirm_icon_style: {
-    height: 2 * CONFIRM_ICON_RADIUS,
-    width: 2 * CONFIRM_ICON_RADIUS,
-    backgroundColor: '#2a2a2a',     
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: CONFIRM_ICON_RADIUS,
-  },
-});
