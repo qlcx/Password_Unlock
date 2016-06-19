@@ -33,14 +33,16 @@ const styles = StyleSheet.create({
 
 export default class SignUp extends Component {
   _signUp() {
-    console.log('sign_up');
+    this.props.navigator.push({
+      name: 'login',
+    });
   }  
   
   render() {
     return (
       <View style={styles.container}>
       <TouchableOpacity
-        onPress={this._signUp}
+        onPress={this._signUp.bind(this)}
         activeOpacity={.3}>
           <View style={styles.signUp_view}>
             <View style={{flex: .65, justifyContent: 'center', alignItems: 'center'}}>

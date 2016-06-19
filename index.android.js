@@ -7,12 +7,12 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 
-import SignUp from './login/signUp';
+import Navigation from './login/navigation';
 
 class Password_Unlock extends Component {
   render() {
     return (
-      <SignUp />
+      <Navigation />
     );
   }
 }

@@ -1,6 +1,6 @@
+'use strict'
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -8,21 +8,34 @@ import {
   TouchableOpacity,
   Navigator,
 } from 'react-native';
+import SignUp from './signUp';
+import LoginPage from './loginPage';
+
 import * as config_info from '../config';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: config_info.BACKGROUNDCOLOR,
   },
 });
 
 export default class Navigation extends Component {
+  
+  _renderScene(route, navigationOperations, onComponentRef) {
+    if(route.name === 'signUp') {
+      return <SignUp navigator={navigationOperations} />
+    } else if(route.name === 'login') {
+      return <LoginPage navigator={navigationOperations} />
+    }
+  }  
+  
   render() {
     return (
-      <View />     
+      <Navigator
+        style={styles.container} 
+        initialRoute={{name: 'signUp'}} 
+        configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+        renderScene={this._renderScene} />     
     );
   }
 }

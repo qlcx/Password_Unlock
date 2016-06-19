@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   
   login_view: {
     height: 2 * config_info.RADIUS + config_info.BORDERWIDTH,
-    width: config_info.width / 3 * 2,
     borderColor: '#fff',
     borderWidth: config_info.BORDERWIDTH,
     borderRadius: config_info.RADIUS,
@@ -40,13 +39,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input_section: {
-    width: config_info.width / 3 * 2 - 4*config_info.RADIUS - 2*config_info.BORDERWIDTH,
     height: 2 * config_info.RADIUS,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   confirm_section: {
-    height: 2 * config_info.RADIUS,
-    width: 2 * config_info.RADIUS,
-    alignItems: 'center',
+    height: config_info.CONFIRM_SECTION,
+    width: config_info.CONFIRM_SECTION,
+    //alignItems: 'center',
     justifyContent: 'center',
   },
   confirm_icon_style: {
@@ -57,26 +57,60 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: config_info.CONFIRM_ICON_RADIUS,
   },
+  
+  Text_Input: {
+    color: '#fff',
+    fontSize: 19,
+    height: 1.5 * config_info.RADIUS,
+  }
 });
 
 export default class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text_length: 0,
+      text_data: '',
+    };
     
-  _confirm() {
-      console.log('confirm');
+    this._confirm = this._confirm.bind(this);
+  }
+  
+  componentWillUnmount() {
+    this.setState({
+      text_length: 0,
+      text_data: '',
+    });
+  }
+    
+  _confirm(text) {
+    console.log(text);
   }
   
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.login_view}>
+        <View style={[styles.login_view, {width: 2 * config_info.RADIUS +
+          config_info.CONFIRM_SECTION + config_info.TEXT_INPUT_INIT_WIDTH + 
+          config_info.BORDERWIDTH + this.state.text_length,}]}>
           <View style={styles.icon_section}>
             {EMAIL_ICON}
           </View>
-          <View style={styles.input_section}>
+          <View style={[styles.input_section, 
+            {width: config_info.TEXT_INPUT_INIT_WIDTH + this.state.text_length,}]}>
+            <TextInput
+              style={styles.Text_Input}
+              autoFocus={true}
+              placeholder='e-mail'
+              placeholderTextColor='#fff'
+              underlineColorAndroid='transparent' 
+              selectTextOnFocus={true}
+              maxLength={45}
+              onChangeText={(text) => {this.setState({text_length: text.length * 3, text_data: text,})}} />
           </View>
           <View style={styles.confirm_section}>
             <TouchableOpacity 
-              onPress={this._confirm}
+              onPress={() => {this._confirm(this.state.text_data)}}
               activeOpacity={.3} >
               <View style={styles.confirm_icon_style}>
                 {CONFIRM_ICON}
