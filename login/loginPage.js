@@ -6,6 +6,8 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Animated,
+  Easing,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as config_info from '../config';
@@ -71,9 +73,33 @@ export default class LoginPage extends Component {
     this.state = {
       text_length: 0,
       text_data: '',
+      
+      animate_email: new Animated.Value(0),
     };
     
     this._confirm = this._confirm.bind(this);
+  }
+  
+  componentDidMount() {
+    Animated.sequence([
+      Animated.timing(
+        this.state.animate_email,
+        {
+          toValue: 1,
+          duration: 500, //持续时间
+          easing: Easing.easeOutBounce,
+        },
+      ),
+      Animated.timing(
+        this.state.animate_email,
+        {
+          toValue: 0,
+          duration: 500, //持续时间
+          easing: Easing.easeOutBounce,
+        },
+      ),
+    ])
+    .start();
   }
   
   componentWillUnmount() {
@@ -93,9 +119,15 @@ export default class LoginPage extends Component {
         <View style={[styles.login_view, {width: 2 * config_info.RADIUS +
           config_info.CONFIRM_SECTION + config_info.TEXT_INPUT_INIT_WIDTH + 
           config_info.BORDERWIDTH + this.state.text_length,}]}>
-          <View style={styles.icon_section}>
+          <Animated.View style={[styles.icon_section, 
+            {transform: 
+              [{rotateZ: this.state.animate_email.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['340deg', '360deg']})
+              }]}
+          ]}>
             {EMAIL_ICON}
-          </View>
+          </Animated.View>
           <View style={[styles.input_section, 
             {width: config_info.TEXT_INPUT_INIT_WIDTH + this.state.text_length,}]}>
             <TextInput
