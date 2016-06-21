@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import SignUp from './signUp';
 import LoginPage from './loginPage';
+import PasswordPage from './passwordPage';
 
 import * as config_info from '../config';
 
@@ -26,6 +27,8 @@ export default class Navigation extends Component {
       return <SignUp navigator={navigationOperations} />
     } else if(route.name === 'login') {
       return <LoginPage navigator={navigationOperations} />
+    } else if(route.name === 'passwordPage') {
+        return <PasswordPage navigator={navigationOperations} />
     }
   }  
   

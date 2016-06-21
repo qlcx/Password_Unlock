@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as config_info from '../config';
 
-const EMAIL_ICON = <Icon name='email' color='#fff' size={24} />
+const EMAIL_ICON = <Icon name='email' color='#fff' size={26} />
 const CONFIRM_ICON = <Icon name='chevron-right' color='#fff' size={24} />
 
 const styles = StyleSheet.create({
@@ -74,32 +75,23 @@ export default class LoginPage extends Component {
       text_length: 0,
       text_data: '',
       
+      degree_email: '270deg',
+      
       animate_email: new Animated.Value(0),
     };
     
     this._confirm = this._confirm.bind(this);
+    this._inputTextChange = this._inputTextChange.bind(this);
   }
   
   componentDidMount() {
-    Animated.sequence([
-      Animated.timing(
-        this.state.animate_email,
-        {
-          toValue: 1,
-          duration: 500, //持续时间
-          easing: Easing.easeOutBounce,
-        },
-      ),
-      Animated.timing(
-        this.state.animate_email,
-        {
-          toValue: 0,
-          duration: 500, //持续时间
-          easing: Easing.easeOutBounce,
-        },
-      ),
-    ])
-    .start();
+    Animated.spring(
+      this.state.animate_email, {
+        toValue: 1,
+        friction: 2,
+        tension: 80, 
+      }
+    ).start();
   }
   
   componentWillUnmount() {
@@ -109,8 +101,36 @@ export default class LoginPage extends Component {
     });
   }
     
-  _confirm(text) {
-    console.log(text);
+  _confirm() {
+    if(this.state.text_data === '1136425019@qq.com') {
+      this.props.navigator.push({
+        name: 'passwordPage',
+      });
+    }
+  }
+  
+  _inputTextChange(text) {
+    this.setState({
+      text_length: text.length * 3, text_data: text,
+      degree_email: '340deg',
+    });
+    
+    Animated.sequence([
+      Animated.timing(
+        this.state.animate_email, {
+          toValue: 0,
+          duration: 1,
+        }
+      ),
+      Animated.spring(
+        this.state.animate_email, {
+          toValue: 1,
+          friction: 1,
+          tension: 10,
+        }
+      ),
+    ]).start();
+
   }
   
   render() {
@@ -123,7 +143,7 @@ export default class LoginPage extends Component {
             {transform: 
               [{rotateZ: this.state.animate_email.interpolate({
                 inputRange: [0, 1],
-                outputRange: ['340deg', '360deg']})
+                outputRange: [this.state.degree_email, '360deg']})
               }]}
           ]}>
             {EMAIL_ICON}
@@ -138,11 +158,11 @@ export default class LoginPage extends Component {
               underlineColorAndroid='transparent' 
               selectTextOnFocus={true}
               maxLength={45}
-              onChangeText={(text) => {this.setState({text_length: text.length * 3, text_data: text,})}} />
+              onChangeText={(text) => {this._inputTextChange(text)}} />
           </View>
           <View style={styles.confirm_section}>
             <TouchableOpacity 
-              onPress={() => {this._confirm(this.state.text_data)}}
+              onPress={this._confirm}
               activeOpacity={.3} >
               <View style={styles.confirm_icon_style}>
                 {CONFIRM_ICON}
