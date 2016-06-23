@@ -79,6 +79,7 @@ export default class LoginPage extends Component {
 
       animate_email: new Animated.Value(0),
       animate_input: new Animated.Value(0),
+      animate_email_icon: new Animated.Value(0),
     };
 
     this._confirm = this._confirm.bind(this);
@@ -109,19 +110,36 @@ export default class LoginPage extends Component {
       });
     } else {
       Animated.sequence([
-        Animated.timing(
-          this.state.animate_input, {
-            toValue: 1,
-            duration: 50,
-          }
-        ),
-        Animated.spring(
-          this.state.animate_input, {
-            toValue: 0,
-            friction: 1,
-            tension: 140,
-          }
-        ),
+        Animated.parallel([
+          Animated.timing(
+            this.state.animate_input, {
+              toValue: 1,
+              duration: 50,
+            }
+          ),
+          Animated.timing(
+            this.state.animate_email_icon, {
+              toValue: 1,
+              duration: 50,
+            }
+          ),
+        ]),
+        Animated.parallel([
+          Animated.spring(
+            this.state.animate_email_icon, {
+              toValue: 0,
+              friction: 1,
+              tension: 200,
+            }
+          ),
+          Animated.spring(
+            this.state.animate_input, {
+              toValue: 0,
+              friction: 1,
+              tension: 140,
+            }
+          ),
+        ]),
       ]).start();
     }
   }
@@ -169,7 +187,17 @@ export default class LoginPage extends Component {
                 outputRange: [this.state.degree_email, '360deg']})
               }]}
           ]}>
-            {EMAIL_ICON}
+            <Animated.View style={[
+              {
+                transform:
+                  [{translateX: this.state.animate_email_icon.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 8]})
+                  }]
+              },
+            ]}>
+              {EMAIL_ICON}
+            </Animated.View>
           </Animated.View>
           <View style={[styles.input_section,
             {width: config_info.TEXT_INPUT_INIT_WIDTH + this.state.text_length,}]}>
