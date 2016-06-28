@@ -119,7 +119,7 @@ export default class LoginPage extends Component {
           ),
           Animated.timing(
             this.state.animate_email_icon, {
-              toValue: 1,
+              toValue: -1,
               duration: 50,
             }
           ),
@@ -129,7 +129,7 @@ export default class LoginPage extends Component {
             this.state.animate_email_icon, {
               toValue: 0,
               friction: 1,
-              tension: 200,
+              tension: 140,
             }
           ),
           Animated.spring(
@@ -192,7 +192,7 @@ export default class LoginPage extends Component {
                 transform:
                   [{translateX: this.state.animate_email_icon.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 8]})
+                    outputRange: [0, 6]})
                   }]
               },
             ]}>
